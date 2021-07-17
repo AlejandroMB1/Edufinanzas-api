@@ -3,10 +3,9 @@ const conection2 = require('../bases/queries/detailQueries');
 
 module.exports = {
     createNewUser :async function (req, res) {
-    	var {nombre, edad, conocimientos, username, correo, contrasena} = req.body;
-        var result =  await conection.createNewUser(username, correo, contrasena);
-        var resultDetail =  await conection2.createNewUserDetail(nombre, edad, conocimientos);
-        if(result == 0 && resultDetail == 0){
+        var usuario = req.body.usuario, contrasena = req.body.contrasena, correo = req.body.correo;
+        var result =  await conection.createNewUser(usuario, correo, contrasena);
+        if(result == 0){
             res.sendStatus(400);
         }
         else{
@@ -55,8 +54,8 @@ module.exports = {
     },
 
     login : async function(req, res) {
-        var usuario = req.body.usuario, contra = req.body.contrasena;
-        var result =  await conection.login(usuario, contra);
+        var usuario = req.body.usuario, contrasena = req.body.contrasena;
+        var result =  await conection.login(usuario, contrasena);
         if (result == 0){
             res.sendStatus(404);;    
         }

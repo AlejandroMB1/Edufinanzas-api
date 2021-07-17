@@ -4,7 +4,7 @@ module.exports = {
     createNewUser : async function (username, correo, contrasena){
         try {
             let conn = await mariadb.getConn();
-            let query ="INSERT INTO Usuario(username, correo, contrasena) VALUES(?,?,?)";
+            let query ="INSERT INTO Usuario(usuario, correo, contrasena) VALUES(?,?,?)";
             let values = [username, correo, contrasena];
             let row = await conn.query(query,values);
             conn.end();
