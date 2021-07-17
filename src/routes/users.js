@@ -5,18 +5,12 @@ const usersControllers = require('../controllers/users');
 
 router.post('/create', usersControllers.createNewUser);
 
-router.get('/getUser/:idOrName?', usersControllers.getUser);
+router.get('/getUser/:id?', usersControllers.getUser);
 
 router.put('/update', usersControllers.updateUser);
 
 router.delete('/delete/:id',usersControllers.deleteUser);
 
-router.get('/login/:username/:password', (req, res) => {
-    res.send("Server Running!");
-});
-
-router.get('/logout/:username', (req, res) => {
-    res.send("Server Running!");
-});
+router.post('/login', usersControllers.login);
 
 module.exports = router;

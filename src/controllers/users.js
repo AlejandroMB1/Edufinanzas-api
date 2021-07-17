@@ -1,11 +1,12 @@
 const conection = require('../bases/queries/usersQueries');
+const conection2 = require('../bases/queries/detailQueries');
 
 module.exports = {
     createNewUser :async function (req, res) {
-    	var {username, correo, contrasena} = req.body;
+    	var {nombre, edad, conocimientos, username, correo, contrasena} = req.body;
         var result =  await conection.createNewUser(username, correo, contrasena);
-        var result =  await conection.createNewUserDetail(id, conocimeintos, idUsuario);
-        if(result == 0){
+        var resultDetail =  await conection2.createNewUserDetail(nombre, edad, conocimientos);
+        if(result == 0 && resultDetail == 0){
             res.sendStatus(400);
         }
         else{
@@ -14,17 +15,17 @@ module.exports = {
     },
 
     getUser : async function(req, res, next){
-        var idOrName = req.params.idOrName;
+        var id = req.params.id;
         var usuarios;
         res.setHeader('Content-Type', 'application/json');
-        console.log(idOrName);
-        if (idOrName == undefined){
+        console.log(id);
+        if (id == undefined){
             usuarios = await conection.getAllUsers();
             res.send(JSON.stringify(usuarios, null, 4));
             console.log("Entré al allusers");
         }
         else{
-            usuarios = await conection.getUserById(idOrName);
+            usuarios = await conection.getUserById(id);
             res.send(JSON.stringify(usuarios, null, 4));
         }
         //res.sendStatus(400);  
@@ -51,6 +52,15 @@ module.exports = {
         else{
             res.sendStatus(200);
         }
+    },
+
+    login : async function(req, res) {
+        var usuario = req.body.usuario, contra = req.body.contrasena;
+        var result =  await conection.login(usuario, contra);
+        if (result == 0){
+            res.sendStatus(404);;    
+        }
+        res.sendStatus(200);;
     }
 
 }

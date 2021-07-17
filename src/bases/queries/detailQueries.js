@@ -1,11 +1,11 @@
 const mariadb = require('../../conexion/conn');
 module.exports = {
 
-    createNewUser : async function (username, correo, contrasena){
+    createNewUserDetail : async function (id, nombre, edad, conocimientos, idUsuario){
         try {
             let conn = await mariadb.getConn();
-            let query ="INSERT INTO Usuario(username, correo, contrasena) VALUES(?,?,?)";
-            let values = [username, correo, contrasena];
+            let query ="INSERT INTO DetalleUsuario(id, nombre, edad, conocimientos, idUsuario) VALUES(?,?,?,?,?)";
+            let values = [id, nombre, edad, conocimientos, idUsuario];
             let row = await conn.query(query,values);
             conn.end();
             return row.affectedRows;
@@ -15,10 +15,10 @@ module.exports = {
         }
     },
 
-    getAllUsers : async function (){
+    getAllUsersDetail : async function (){
         try {
             let conn = await mariadb.getConn();
-            let row = await conn.query("SELECT * FROM Usuario;");
+            let row = await conn.query("SELECT * FROM DetalleUsuario;");
             conn.end();
             return row;
 
@@ -27,11 +27,11 @@ module.exports = {
         }
     },
 
-    getUserById : async function(id){
+    getUserDetailById : async function(idUsuario){
         try{
             let conn = await mariadb.getConn();
-            let query = "SELECT * FROM Usuario WHERE id = ?";
-            let value = [id];
+            let query = "SELECT * FROM DetalleUsuario WHERE idUsuario = ?";
+            let value = [idUsuario];
             let row = await conn.query(query, value); 
             conn.end();
             return row;
@@ -40,11 +40,11 @@ module.exports = {
         }
     },
 
-    updateUser : async function(id, username, correo, contrasena){
+    updateUserDetail : async function(id, nombre, edad, conocimientos, idUsuario){
         try{
             let conn = await mariadb.getConn();
-            let query = "UPDATE Usuario SET username = ?, correo = ?, contrasena = ? WHERE id = ?";
-            let value = [username, correo, contrasena, id]
+            let query = "UPDATE DetalleUsuario SET id = ?, nombre=?, edad=?, conocimientos = ? WHERE idUsuario = ?";
+            let value = [id, nombre, edad, conocimientos, idUsuario]
             let row = await conn.query(query, value);
             conn.end();
             return row.affectedRows;
@@ -53,30 +53,17 @@ module.exports = {
             return 0
         }
     },
-    deleteUser : async function(id){
+    deleteUserDetail : async function(idUsuario){
         try{
             let conn = await mariadb.getConn();
-            let query = "DELETE FROM Usuario WHERE id = ?";
-            let value = [id]
+            let query = "DELETE FROM DetalleUsuario WHERE idUsuario = ?";
+            let value = [idUsuario]
             let row = await conn.query(query, value); 
             conn.end();
             return row.affectedRows;
         }catch(error){
             console.log(error);
             return 0;
-        }
-    },
-
-    login : async function(usuario, contra){
-        try{
-            let conn = await mariadb.getConn();
-            let query = "SELECT count(*) as cuenta FROM Usuario WHERE usuario = ? and contrasena = ?";
-            let value = [usuario, contra];
-            let row = await conn.query(query, value);
-            conn.end();
-            return row[0].cuenta;
-        }catch(error){
-            console.log(error);
         }
     }
 }

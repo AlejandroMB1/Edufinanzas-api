@@ -2,8 +2,8 @@ const conection = require('../bases/queries/detailQueries');
 
 module.exports = {
     createNewUserDetail :async function (req, res) {
-    	var {username, correo, contrasena} = req.body;
-        var result =  await conection.createNewUser(username, correo, contrasena);
+    	var {id, nombre, edad, conocimientos, idUsuario} = req.body;
+        var result =  await conection.createNewUserDetail(id, nombre, edad, conocimientos, idUsuario);
         if(result == 0){
             res.sendStatus(400);
         }
@@ -14,23 +14,22 @@ module.exports = {
 
     getUserDetail : async function(req, res, next){
         var id = req.params.id;
-        var usuarios;
+        var DetalleUsuario;
         res.setHeader('Content-Type', 'application/json');
-        console.log(idOrName);
+        console.log(id);
         if (id == undefined){
-            usuarios = await conection.getAllUsers();
-            res.send(JSON.stringify(usuarios, null, 4));
-            console.log("Entré al allusers");
+            DetalleUsuario = await conection.getAllUsersDetail();
+            res.send(JSON.stringify(DetalleUsuario, null, 4));
         }
         else{
-            usuarios = await conection.getUserById(idOrName);
-            res.send(JSON.stringify(usuarios, null, 4));
+            DetalleUsuario = await conection.getUserDetailById(id);
+            res.send(JSON.stringify(DetalleUsuario, null, 4));
         }
     },
 
     updateUserDetail : async function(req, res) {
-    	var {id, conocimeintos, idUsuario } = req.body;
-        var result =  await conection.updateUser(id, conocimeintos, idUsuario);
+    	var {id, nombre, edad, conocimientos, idUsuario } = req.body;
+        var result =  await conection.updateUserDetail(id, nombre, edad, conocimientos, idUsuario);
         if(result == 0){
             res.sendStatus(400);  
         }
@@ -39,9 +38,9 @@ module.exports = {
         }
     },
 
-    deleteUser : async function(req, res) {
+    deleteUserDetail : async function(req, res) {
         var id = req.params.id;
-        var result =  await conection.deleteUser(id);
+        var result =  await conection.deleteUserDetail(id);
         if(result == 0){
             res.sendStatus(400);
         }

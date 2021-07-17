@@ -1,14 +1,14 @@
 const { Router } = require('express');
 const router = Router();
 const _ = require('underscore');
-const usersControllers = require('../controllers/detailUsers');
+const detailControllers = require('../controllers/detailUser');
 
-router.post('/createDetail', usersControllers.createNewUserDetail);
+router.post('/createDetail', detailControllers.createNewUserDetail);
 
-router.get('/getUser/:idOrName?', usersControllers.getUserDetail);
+router.get('/getUser/:id?', detailControllers.getUserDetail);
 
-router.put('/update', usersControllers.updateUser);
+router.put('/update', detailControllers.updateUserDetail);
 
-router.delete('/delete/:id',usersControllers.deleteUser);
+router.delete('/delete/:id',detailControllers.deleteUserDetail);
 
 module.exports = router;

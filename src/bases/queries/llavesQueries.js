@@ -1,11 +1,11 @@
 const mariadb = require('../../conexion/conn');
 module.exports = {
 
-    createNewUser : async function (username, correo, contrasena){
+    createKeys : async function (id, nombre, clasificacion){
         try {
             let conn = await mariadb.getConn();
-            let query ="INSERT INTO Usuario(username, correo, contrasena) VALUES(?,?,?)";
-            let values = [username, correo, contrasena];
+            let query ="INSERT INTO Llave(id, nombre, clasificacion) VALUES(?,?,?)";
+            let values = [id, nombre, clasificacion];
             let row = await conn.query(query,values);
             conn.end();
             return row.affectedRows;
@@ -15,10 +15,10 @@ module.exports = {
         }
     },
 
-    getAllUsers : async function (){
+    getAllUsersKeys : async function (){
         try {
             let conn = await mariadb.getConn();
-            let row = await conn.query("SELECT * FROM Usuario;");
+            let row = await conn.query("SELECT * FROM Llave;");
             conn.end();
             return row;
 
@@ -27,10 +27,10 @@ module.exports = {
         }
     },
 
-    getUserById : async function(id){
+    getUserKeysById : async function(id){
         try{
             let conn = await mariadb.getConn();
-            let query = "SELECT * FROM Usuario WHERE id = ?";
+            let query = "SELECT * FROM Llave WHERE id = ?";
             let value = [id];
             let row = await conn.query(query, value); 
             conn.end();
@@ -40,11 +40,11 @@ module.exports = {
         }
     },
 
-    updateUser : async function(id, username, correo, contrasena){
+    updateKeys : async function(id, nombre, clasificacion){
         try{
             let conn = await mariadb.getConn();
-            let query = "UPDATE Usuario SET username = ?, correo = ?, contrasena = ? WHERE id = ?";
-            let value = [username, correo, contrasena, id]
+            let query = "UPDATE Llave SET nombre=?, clasificacion=? WHERE id = ?";
+            let value = [nombre, clasificacion, id]
             let row = await conn.query(query, value);
             conn.end();
             return row.affectedRows;
@@ -53,10 +53,10 @@ module.exports = {
             return 0
         }
     },
-    deleteUser : async function(id){
+    deleteKeys : async function(id){
         try{
             let conn = await mariadb.getConn();
-            let query = "DELETE FROM Usuario WHERE id = ?";
+            let query = "DELETE FROM Llave WHERE id = ?";
             let value = [id]
             let row = await conn.query(query, value); 
             conn.end();
@@ -64,19 +64,6 @@ module.exports = {
         }catch(error){
             console.log(error);
             return 0;
-        }
-    },
-
-    login : async function(usuario, contra){
-        try{
-            let conn = await mariadb.getConn();
-            let query = "SELECT count(*) as cuenta FROM Usuario WHERE usuario = ? and contrasena = ?";
-            let value = [usuario, contra];
-            let row = await conn.query(query, value);
-            conn.end();
-            return row[0].cuenta;
-        }catch(error){
-            console.log(error);
         }
     }
 }
