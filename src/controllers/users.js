@@ -17,18 +17,14 @@ module.exports = {
         var id = req.params.id;
         var usuarios;
         res.setHeader('Content-Type', 'application/json');
-        console.log(id);
         if (id == undefined){
             usuarios = await conection.getAllUsers();
             res.send(JSON.stringify(usuarios, null, 4));
-            console.log("Entré al allusers");
         }
         else{
             usuarios = await conection.getUserById(id);
             res.send(JSON.stringify(usuarios, null, 4));
         }
-        //res.sendStatus(400);  
-        console.log("despues");
     },
 
     updateUser : async function(req, res) {
@@ -54,12 +50,14 @@ module.exports = {
     },
 
     login : async function(req, res) {
-        var usuario = req.body.usuario, contrasena = req.body.contrasena;
-        var result =  await conection.login(usuario, contrasena);
-        if (result == 0){
-            res.sendStatus(404);;    
-        }
-        res.sendStatus(200);;
+        var usuario = req.body.usuario, contra = req.body.contrasena;
+        var result =  await conection.login(usuario, contra);
+        res.setHeader('Content-Type', 'application/json');
+        if (result == undefined){
+            res.sendStatus(404);    
+        } else {
+            res.end(JSON.stringify({ id: result.id, usuario: result.usuario, correo: result.correo }));
+        }       
     }
 
 }

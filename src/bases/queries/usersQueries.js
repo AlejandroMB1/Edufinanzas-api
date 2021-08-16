@@ -70,11 +70,11 @@ module.exports = {
     login : async function(usuario, contra){
         try{
             let conn = await mariadb.getConn();
-            let query = "SELECT count(*) as cuenta FROM Usuario WHERE usuario = ? and contrasena = ?";
+            let query = "SELECT * FROM Usuario WHERE usuario = ? and contrasena = ?";
             let value = [usuario, contra];
             let row = await conn.query(query, value);
             conn.end();
-            return row[0].cuenta;
+            return row[0];
         }catch(error){
             console.log(error);
         }
