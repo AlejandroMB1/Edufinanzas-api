@@ -2,8 +2,8 @@ const conection = require('../bases/queries/detailQueries');
 
 module.exports = {
     createNewUserDetail :async function (req, res) {
-    	var {id, nombre, edad, conocimientos, idUsuario} = req.body;
-        var result =  await conection.createNewUserDetail(id, nombre, edad, conocimientos, idUsuario);
+    	var {nombre, edad, conocimientos, idUsuario} = req.body;
+        var result =  await conection.createNewUserDetail(nombre, edad, conocimientos, idUsuario);
         if(result == 0){
             res.sendStatus(400);
         }
@@ -16,9 +16,8 @@ module.exports = {
         var id = req.params.id;
         var DetalleUsuario;
         res.setHeader('Content-Type', 'application/json');
-        console.log(id);
         if (id == undefined){
-            DetalleUsuario = await conection.getAllUsersDetail();
+            DetalleUsuario = await conection.getAllUsersDetail();            
             res.send(JSON.stringify(DetalleUsuario, null, 4));
         }
         else{

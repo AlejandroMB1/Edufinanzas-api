@@ -1,11 +1,11 @@
 const mariadb = require('../../conexion/conn');
 module.exports = {
 
-    createNewUserDetail : async function (id, nombre, edad, conocimientos, idUsuario){
+    createNewUserDetail : async function (nombre, edad, conocimientos, idUsuario){
         try {
             let conn = await mariadb.getConn();
-            let query ="INSERT INTO DetalleUsuario(id, nombre, edad, conocimientos, idUsuario) VALUES(?,?,?,?,?)";
-            let values = [id, nombre, edad, conocimientos, idUsuario];
+            let query ="INSERT INTO DetalleUsuario(nombre, edad, conocimientos, idUsuario) VALUES(?,?,?,?)";
+            let values = [nombre, edad, JSON.stringify(conocimientos), idUsuario];
             let row = await conn.query(query,values);
             conn.end();
             return row.affectedRows;
@@ -21,7 +21,6 @@ module.exports = {
             let row = await conn.query("SELECT * FROM DetalleUsuario;");
             conn.end();
             return row;
-
         } catch (err) {
             console.log(err);
         }

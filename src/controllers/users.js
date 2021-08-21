@@ -28,8 +28,8 @@ module.exports = {
     },
 
     updateUser : async function(req, res) {
-    	var {id, username, correo, contrasena } = req.body;
-        var result =  await conection.updateUser(id, username, correo, contrasena);
+    	var {id, usuario, correo, contrasena } = req.body;
+        var result =  await conection.updateUser(id, usuario, correo, contrasena);
         if(result == 0){
             res.sendStatus(400);  
         }
@@ -56,7 +56,7 @@ module.exports = {
         if (result == undefined){
             res.sendStatus(404);    
         } else {
-            res.end(JSON.stringify({ id: result.id, usuario: result.usuario, correo: result.correo }));
+            res.end(JSON.stringify({ id: result.id, usuario: result.usuario, correo: result.correo, contrasena: result.contrasena}));
         }       
     }
 

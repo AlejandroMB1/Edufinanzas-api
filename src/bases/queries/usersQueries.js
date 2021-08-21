@@ -40,11 +40,11 @@ module.exports = {
         }
     },
 
-    updateUser : async function(id, username, correo, contrasena){
+    updateUser : async function(id, usuario, correo, contrasena){
         try{
             let conn = await mariadb.getConn();
-            let query = "UPDATE Usuario SET username = ?, correo = ?, contrasena = ? WHERE id = ?";
-            let value = [username, correo, contrasena, id]
+            let query = "UPDATE Usuario SET usuario = ?, correo = ?, contrasena = ? WHERE id = ?";
+            let value = [usuario, correo, contrasena, id]
             let row = await conn.query(query, value);
             conn.end();
             return row.affectedRows;

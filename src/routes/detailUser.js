@@ -5,7 +5,7 @@ const detailControllers = require('../controllers/detailUser');
 
 router.post('/createDetail', detailControllers.createNewUserDetail);
 
-router.get('/getUser/:id?', detailControllers.getUserDetail);
+router.get('/getUserDetail/:id?', detailControllers.getUserDetail);
 
 router.put('/update', detailControllers.updateUserDetail);
 
